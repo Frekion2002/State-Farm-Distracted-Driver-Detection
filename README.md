@@ -57,6 +57,10 @@
 
 
 # 5. 실행 방법
-** 1. ROI 추출**: python YOLO.py 실행하여 모리/손 BBox 정보가 담긴 JSON 생성.
-** 2. 모델 학습**: python train_best.py 실행 (GropKFold 기반 5-Fold 학습).
-** 3. 후처리 및 추론**: python knn_postprecess_best.py 실행하여 최종 Submission 생성.
+**1. ROI 추출**: python YOLO.py 실행하여 모리/손 BBox 정보가 담긴 JSON 생성.
+
+
+**2. 모델 학습**: python train_best.py 실행 (GropKFold 기반 5-Fold 학습).
+
+
+**3. 후처리 및 추론**: python knn_postprecess_best.py 실행하여 최종 Submission 생성.
