@@ -46,7 +46,8 @@
 - 효과: 특정 프레임에서 모데르이 확신도가 낮더라도 유사한 이웃 프레임의 예측값을 참고하여 자연스러운 보정이 가능해졌습니다.
 
 
-# 4. 실험 결과 (Ablation Study)
+# 4. 실험 결과
+## Augmentation Ablation Study
 | Data Augmentation | Validation Acc | Validation Loss |
 | :--- | :---: | :---: |
 | Naive (Base) | 0.8986  | 0.4328  |
@@ -56,14 +57,35 @@
 | Random Erasing | 0.9142  | 0.3334  |
 | Multi-crop | 0.9245  | 0.4281  |
 
+## Train/Val Loss graph
+<img width="266" height="212" alt="learning_curve_before" src="https://github.com/user-attachments/assets/4fe68713-596c-4982-9b1b-7f2e6800f4ed" />
+- 기존 ResNet의 Head 및 Dropout 0.5
+
+
+<img width="329" height="259" alt="learning_curve_after" src="https://github.com/user-attachments/assets/52de90c8-a3f7-40fa-b25e-a222d85ec526" />
+- Head 단순화 및 Dropout 0.8
+
+
 - 결론: 단순한 모델 구조와 강한 Dropout 적용이 복잡한 모델보다 더 나은 일반화 성능을 보임을 확인했습니다.
 
 
+# 5. 추가 실험 성공/실패 사례 분석
+<img width="266" height="230" alt="confusion_matric" src="https://github.com/user-attachments/assets/9929b72f-c98b-42c8-a3d2-b8e33d87cdad" />
+- 학습 후 confusion matrix 결과 c0(안전 운전) 클래스와 c9(동승자와 대화) 클래스에 대해 오분류가 심하다는 것을 확인했습니다.
+- 이를 해결하기 위해 c0와 c9 클래스만 분류하는 binary classifier(ResNet18)를 추가했지만 의미 있는 성능 개선을 이끌어낼 수 없었습니다.
+- 분석 결과 이미지 데이터에는 소리 데이터가 존재하지 않으므로 정면을 바라본 채 동승자와 대화하는 경우 이를 정확히 분류하는 것은 거의 불가능에 가깝다는 결론을 내렸습니다.
+
+
 # 5. 실행 방법
-**1. ROI 추출**: python YOLO.py 실행하여 모리/손 BBox 정보가 담긴 JSON 생성.
-
-
-**2. 모델 학습**: python train_best.py 실행 (GropKFold 기반 5-Fold 학습).
-
-
-**3. 후처리 및 추론**: python knn_postprecess_best.py 실행하여 최종 Submission 생성.
+**1. ROI 추출**: 머리/손 BBox 정보를 담은 `yolo_pose_bboxes.json' 생성
+```bash
+python YOLO.py
+```
+**2. 모델 학습**: GropKFold 기반 5-Fold 학습 진행
+```bash
+python train_best.py
+```
+**3. 후처리 및 추론**: KNN Smoothing을 적용한 최종 Submission 생성
+```bash
+python knn_postprocess_best.py
+```
