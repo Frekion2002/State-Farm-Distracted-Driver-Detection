@@ -59,10 +59,14 @@
 
 ## Train/Val Loss graph
 <img width="266" height="212" alt="learning_curve_before" src="https://github.com/user-attachments/assets/4fe68713-596c-4982-9b1b-7f2e6800f4ed" />
+
+
 - 기존 ResNet의 Head 및 Dropout 0.5
 
 
 <img width="329" height="259" alt="learning_curve_after" src="https://github.com/user-attachments/assets/52de90c8-a3f7-40fa-b25e-a222d85ec526" />
+
+
 - Head 단순화 및 Dropout 0.8
 
 
